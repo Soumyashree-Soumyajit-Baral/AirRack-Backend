@@ -24,7 +24,7 @@ export const updateUser = async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
     { name, email, phone, role, isActive },
-    { new: true, runValidators: true }
+    { returnDocument: 'after', runValidators: true }
   );
   if (!user) return sendError(res, 'User not found', 404);
   return sendSuccess(res, { user: user.toSafeObject() });

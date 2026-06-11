@@ -13,7 +13,7 @@ export const createWarehouse = async (req, res) => {
 
 export const updateWarehouse = async (req, res) => {
   const warehouse = await Warehouse.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
+    returnDocument: 'after',
     runValidators: true,
   });
   if (!warehouse) return sendError(res, 'Warehouse not found', 404);

@@ -5,7 +5,6 @@ const racksDataSchema = new mongoose.Schema(
     boxId: {
       type: String,
       required: [true, 'Box ID is required'],
-      unique: true,
       trim: true,
       uppercase: true,
     },

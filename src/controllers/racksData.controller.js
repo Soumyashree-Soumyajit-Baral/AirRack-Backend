@@ -33,7 +33,7 @@ const fmtVal = (v) => {
 export const getAllRecords = async (req, res) => {
   const filter = {};
   if (req.query.warehouseId) filter.warehouseId = req.query.warehouseId;
-  const records = await RacksData.find(filter).sort({ createdAt: -1 });
+  const records = await RacksData.find(filter).sort({ createdAt: 1 });
   return sendSuccess(res, { records, total: records.length });
 };
 
@@ -57,7 +57,7 @@ export const updateRecord = async (req, res) => {
   body.fullLocationCode = buildLocationCode(body);
 
   const record = await RacksData.findByIdAndUpdate(req.params.id, body, {
-    new: true,
+    returnDocument: 'after',
     runValidators: true,
   });
 
