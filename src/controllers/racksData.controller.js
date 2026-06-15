@@ -8,6 +8,7 @@ const FIELD_LABELS = {
   aircraftRegistration: 'Aircraft Registration',
   msn: 'MSN',
   recordType: 'Record Type',
+  recordDescription: 'Record Description',
   dateRangeFrom: 'Date From',
   dateRangeTo: 'Date To',
   zone: 'Zone',

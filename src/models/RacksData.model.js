@@ -12,6 +12,7 @@ const racksDataSchema = new mongoose.Schema(
     aircraftRegistration: { type: String, trim: true, uppercase: true },
     msn: { type: String, trim: true },
     recordType: { type: String, trim: true },
+    recordDescription: { type: String, trim: true },
     dateRangeFrom: { type: Date },
     dateRangeTo: { type: Date },
     zone: { type: String, trim: true, uppercase: true },
