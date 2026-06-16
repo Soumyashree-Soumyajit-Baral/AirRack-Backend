@@ -102,6 +102,7 @@ export const deleteRecord = async (req, res) => {
       aircraftRegistration: record.aircraftRegistration || '',
       msn:                  record.msn                  || '',
       recordType:           record.recordType           || '',
+      recordDescription:    record.recordDescription    || '',
       dateRangeFrom:        record.dateRangeFrom,
       dateRangeTo:          record.dateRangeTo,
       zone:                 record.zone                 || '',
@@ -111,6 +112,11 @@ export const deleteRecord = async (req, res) => {
       fullLocationCode:     record.fullLocationCode     || '',
       boxStatus:            record.boxStatus            || '',
       condition:            record.condition            || '',
+      lastMovementDate:     record.lastMovementDate,
+      issuedTo:             record.issuedTo             || '',
+      returnDueDate:        record.returnDueDate,
+      remarks:              record.remarks              || '',
+      warehouseId:          record.warehouseId          || null,
     },
   });
 

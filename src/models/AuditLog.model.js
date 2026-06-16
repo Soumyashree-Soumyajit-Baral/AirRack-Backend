@@ -21,6 +21,7 @@ const auditLogSchema = new mongoose.Schema({
     aircraftRegistration: { type: String, default: '' },
     msn:                  { type: String, default: '' },
     recordType:           { type: String, default: '' },
+    recordDescription:    { type: String, default: '' },
     dateRangeFrom:        { type: Date },
     dateRangeTo:          { type: Date },
     zone:                 { type: String, default: '' },
@@ -30,6 +31,11 @@ const auditLogSchema = new mongoose.Schema({
     fullLocationCode:     { type: String, default: '' },
     boxStatus:            { type: String, default: '' },
     condition:            { type: String, default: '' },
+    lastMovementDate:     { type: Date },
+    issuedTo:             { type: String, default: '' },
+    returnDueDate:        { type: Date },
+    remarks:              { type: String, default: '' },
+    warehouseId:          { type: mongoose.Schema.Types.ObjectId, ref: 'Warehouse', default: null },
   },
 });
 
