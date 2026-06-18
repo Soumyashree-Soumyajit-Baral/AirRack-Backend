@@ -50,6 +50,47 @@ export const createRecord = async (req, res) => {
   return sendSuccess(res, { record }, 201);
 };
 
+export const bulkCreateRecords = async (req, res) => {
+  const { records, warehouseId } = req.body;
+  if (!Array.isArray(records) || records.length === 0) {
+    return sendError(res, 'No records provided', 400);
+  }
+
+  const docs = records.map((r) => {
+    const doc = { ...r };
+    if (warehouseId) doc.warehouseId = warehouseId;
+    doc.fullLocationCode = buildLocationCode(doc);
+    return doc;
+  });
+
+  let inserted = [];
+  let failedCount = 0;
+  try {
+    inserted = await RacksData.insertMany(docs, { ordered: false });
+  } catch (err) {
+    inserted = err.insertedDocs || [];
+    failedCount = docs.length - inserted.length;
+  }
+
+  if (inserted.length > 0) {
+    await AuditLog.insertMany(
+      inserted.map((record) => ({
+        recordId: record._id,
+        boxId: record.boxId,
+        action: 'created',
+        performedBy: req.user._id,
+        performedByName: req.user.name,
+      })),
+    );
+  }
+
+  return sendSuccess(res, {
+    insertedCount: inserted.length,
+    failedCount,
+    records: inserted,
+  }, 201);
+};
+
 export const updateRecord = async (req, res) => {
   const old = await RacksData.findById(req.params.id);
   if (!old) return sendError(res, 'Record not found', 404);
