@@ -39,18 +39,5 @@ const racksDataSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const buildLocationCode = (doc) => {
-  if (doc.zone && doc.aisle && doc.rack && doc.level) {
-    return `${doc.zone}-${doc.aisle}-${doc.rack}-${doc.level}`;
-  }
-  return doc.fullLocationCode;
-};
-
-racksDataSchema.pre('save', function () {
-  this.fullLocationCode = buildLocationCode(this);
-});
-
-export { buildLocationCode };
-
 const RacksData = mongoose.model('RacksData', racksDataSchema);
 export default RacksData;

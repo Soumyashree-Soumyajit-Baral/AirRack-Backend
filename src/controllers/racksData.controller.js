@@ -1,4 +1,4 @@
-import RacksData, { buildLocationCode } from '../models/RacksData.model.js';
+import RacksData from '../models/RacksData.model.js';
 import AuditLog from '../models/AuditLog.model.js';
 import { sendSuccess, sendError } from '../utils/response.utils.js';
 
@@ -59,7 +59,6 @@ export const bulkCreateRecords = async (req, res) => {
   const docs = records.map((r) => {
     const doc = { ...r };
     if (warehouseId) doc.warehouseId = warehouseId;
-    doc.fullLocationCode = buildLocationCode(doc);
     return doc;
   });
 
@@ -96,7 +95,6 @@ export const updateRecord = async (req, res) => {
   if (!old) return sendError(res, 'Record not found', 404);
 
   const body = { ...req.body };
-  body.fullLocationCode = buildLocationCode(body);
 
   const record = await RacksData.findByIdAndUpdate(req.params.id, body, {
     returnDocument: 'after',
