@@ -23,7 +23,8 @@ export const createUser = async (req, res) => {
   user.resetPasswordExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
   await user.save({ validateBeforeSave: false });
 
-  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${rawToken}`;
+  const frontendUrl = process.env.FRONTEND_URL.replace(/\/$/, '');
+  const resetLink = `${frontendUrl}/reset-password?token=${rawToken}`;
   sendResetEmail(user.name, user.email, resetLink, password);
 
   return sendSuccess(res, { user: user.toSafeObject() }, 201);
