@@ -1,5 +1,7 @@
+import crypto from 'crypto';
 import User from '../models/User.model.js';
 import { sendSuccess, sendError } from '../utils/response.utils.js';
+import { sendResetEmail } from '../services/email.service.js';
 
 export const getAllUsers = async (req, res) => {
   const users = await User.find().sort({ createdAt: -1 });
@@ -15,6 +17,15 @@ export const createUser = async (req, res) => {
   if (exists) return sendError(res, 'Email already in use', 409);
 
   const user = await User.create({ name, email, password, phone, role });
+
+  const rawToken = crypto.randomBytes(32).toString('hex');
+  user.resetPasswordToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+  user.resetPasswordExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  await user.save({ validateBeforeSave: false });
+
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${rawToken}`;
+  sendResetEmail(user.name, user.email, resetLink, password);
+
   return sendSuccess(res, { user: user.toSafeObject() }, 201);
 };
 
