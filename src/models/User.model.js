@@ -4,13 +4,17 @@ import bcrypt from 'bcryptjs';
 export const ROLES = {
   SUPER_ADMIN: 'super_admin',
   ADMIN: 'admin',
-  TECH_REP: 'tech_rep',
+  WAREHOUSE_MANAGER: 'warehouse_manager',
+  PROJECT_CONTROLLER: 'project_controller',
+  RECORDS_REPRESENTATIVE: 'records_representative',
 };
 
 export const ROLE_PERMISSIONS = {
-  super_admin: ['manage_users', 'manage_records', 'add_records', 'view_records', 'manage_settings'],
-  admin: ['manage_records', 'add_records', 'view_records', 'manage_users'],
-  tech_rep: ['view_records', 'add_records'],
+  super_admin:            ['manage_users', 'manage_records', 'add_records', 'view_records', 'manage_settings'],
+  admin:                  ['manage_records', 'add_records', 'view_records', 'manage_users'],
+  warehouse_manager:      ['manage_records', 'add_records', 'view_records', 'manage_users'],
+  project_controller:     ['manage_records', 'add_records', 'view_records'],
+  records_representative: ['manage_records', 'add_records', 'view_records'],
 };
 
 const userSchema = new mongoose.Schema(
@@ -38,7 +42,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: Object.values(ROLES),
-      default: ROLES.TECH_REP,
+      default: ROLES.RECORDS_REPRESENTATIVE,
     },
     phone: {
       type: String,

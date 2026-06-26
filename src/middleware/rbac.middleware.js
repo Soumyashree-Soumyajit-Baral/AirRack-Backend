@@ -2,9 +2,11 @@ import { ROLE_PERMISSIONS } from '../models/User.model.js';
 import { sendError } from '../utils/response.utils.js';
 
 const ROLE_HIERARCHY = {
-  super_admin: 3,
-  admin: 2,
-  tech_rep: 1,
+  super_admin: 5,
+  admin: 4,
+  warehouse_manager: 4,
+  project_controller: 3,
+  records_representative: 2,
 };
 
 /**
